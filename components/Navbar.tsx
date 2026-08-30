@@ -4,18 +4,19 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-amber-500/20 bg-black/70 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3">
- <img
-  src="/logo/logo-dkkt.png"
-  alt="Logo DKKT"
-  className="h-11 w-11 object-contain"
-/>
+        
+<a href="/" className="flex items-center gap-3">
+  <img
+    src="/logo/logo-dkkt.png"
+    alt="Logo DKKT"
+    className="h-16 w-16 object-contain"
+  />
 
-  <div>
-    <h1 className="text-sm font-bold text-white leading-none">
+  <div className="leading-tight">
+    <h1 className="text-lg font-bold text-white">
       Dewan Kesenian dan Kebudayaan
     </h1>
-    <p className="text-xs text-gray-400">
+    <p className="text-sm text-amber-300">
       Kota Tasikmalaya
     </p>
   </div>
