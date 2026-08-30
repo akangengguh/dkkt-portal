@@ -1,5 +1,8 @@
+import Navbar from "@/components/Navbar";
 export default function Home() {
   return (
+    <>
+    <Navbar />
     <main className="min-h-screen bg-neutral-950 text-white">
       {/* HERO */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
@@ -9,7 +12,6 @@ export default function Home() {
           <p className="mb-4 text-amber-400 tracking-[0.3em] uppercase">
             Website Resmi
           </p>
-
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
             Dewan Kesenian dan
             <span className="block text-amber-400">
@@ -58,6 +60,7 @@ export default function Home() {
       <footer className="border-t border-white/10 bg-black py-8 text-center text-gray-400">
         © 2026 DKKT — Dewan Kesenian dan Kebudayaan Kota Tasikmalaya
       </footer>
-    </main>
+       </main>
+    </>
   );
 }
