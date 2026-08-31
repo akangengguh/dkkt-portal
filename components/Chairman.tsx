@@ -1,20 +1,24 @@
+"use client";
+
+import { useState } from "react";
 import SectionTitle from "./SectionTitle";
 
 export default function Chairman() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <section className="relative overflow-hidden bg-[#080808] py-28">
       {/* Background Glow */}
-      <div className="absolute left-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-amber-500/10 blur-3xl" />
-      <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+      <div className="absolute left-0 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-amber-500/10 blur-3xl" />
+      <div className="absolute right-0 top-16 h-80 w-80 rounded-full bg-orange-500/10 blur-3xl" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
 
         {/* FOTO KETUA */}
         <div className="relative">
-          {/* Frame Glow */}
-          <div className="absolute -inset-3 rounded-[32px] bg-gradient-to-br from-amber-400/30 via-transparent to-orange-500/20 blur-xl" />
+          <div className="absolute -inset-3 rounded-[32px] bg-gradient-to-br from-amber-400/20 via-transparent to-orange-500/20 blur-xl" />
 
-          <div className="relative overflow-hidden rounded-[28px] border border-amber-500/30 bg-neutral-900 shadow-[0_0_60px_rgba(245,158,11,0.15)]">
+          <div className="relative overflow-hidden rounded-[28px] border border-amber-500/30 bg-neutral-900 shadow-[0_0_70px_rgba(245,158,11,0.18)]">
             <img
               src="/images/ketua-dkkt.jpg"
               alt="Tatang Suprihatna Sumpena"
@@ -25,48 +29,79 @@ export default function Chairman() {
 
         {/* KONTEN */}
         <div>
-
           <SectionTitle
             title="Tabik Semesta! Salam Budaya!"
             subtitle="Sambutan Ketua DKKT"
           />
 
-          <div className="mt-8 space-y-7 text-xl leading-9 text-gray-200">
+          {/* Highlight Sambutan */}
+          <div className="mt-8 space-y-6 text-lg leading-8 text-gray-200">
 
-            <p>
+            <p className="text-xl font-medium text-white">
               Panggung telah dibuka, lampu sorot menyala. Selamat datang di
-              Portal Resmi <strong className="text-white">Dewan Kesenian dan Kebudayaan Kota Tasikmalaya (DKKT)</strong>,
-              rumah bersama bagi seluruh insan seni, budaya, akademisi, komunitas,
-              dan masyarakat.
+              Portal Resmi DKKT—rumah bersama bagi seluruh insan seni, budaya,
+              akademisi, komunitas, dan masyarakat Kota Tasikmalaya.
             </p>
 
             <p>
-              Sebagai seniman teater dan sutradara, saya meyakini bahwa seni bukan
-              sekadar tontonan. Seni adalah ruang dialog, pendidikan, identitas,
-              sekaligus kekuatan yang mampu membentuk karakter dan peradaban sebuah kota.
+              Seni bukan sekadar tontonan, melainkan ruang dialog, identitas,
+              dan kekuatan yang membentuk peradaban. Melalui kolaborasi dan
+              inovasi, DKKT hadir menjaga akar tradisi sekaligus melahirkan
+              karya-karya kreatif untuk masa depan.
             </p>
 
-            <p>
-              DKKT hadir untuk merentangkan panggung kolaborasi. Melalui inovasi digital,
-              pelestarian budaya, dan pemberdayaan komunitas, kita menjaga akar tradisi
-              sembari melahirkan karya-karya kreatif yang relevan dengan perkembangan zaman.
-            </p>
-
-            {/* QUOTE */}
-            <blockquote className="my-8 rounded-r-2xl border-l-4 border-amber-400 bg-amber-500/5 px-6 py-5 italic text-xl text-amber-200">
+            {/* Quote */}
+            <blockquote className="rounded-r-2xl border-l-4 border-amber-400 bg-amber-500/5 px-6 py-5 italic text-amber-200">
               “Budaya yang besar lahir dari masyarakat yang mau berkarya,
               berkolaborasi, dan saling menghidupkan.”
             </blockquote>
 
-            <p>
-              Mari jadikan Tasikmalaya sebagai kota yang tidak hanya dikenal karena
-              warisan budayanya, tetapi juga karena keberanian melahirkan karya terbaik
-              untuk Indonesia.
-            </p>
+            {/* Full Sambutan */}
+            {expanded && (
+              <div className="space-y-6 pt-2 text-gray-300 animate-in fade-in duration-500">
+                <p>
+                  Sebagai seniman teater dan sutradara, saya meyakini bahwa seni
+                  bukan hanya pertunjukan di atas panggung, tetapi juga medium
+                  pendidikan, refleksi sosial, dan penguat karakter masyarakat.
+                </p>
 
+                <p>
+                  Dewan Kesenian dan Kebudayaan Kota Tasikmalaya hadir untuk
+                  merentangkan panggung kolaborasi antara seniman, budayawan,
+                  akademisi, pemerintah, komunitas, dan generasi muda dalam
+                  membangun ekosistem kebudayaan yang hidup dan berkelanjutan.
+                </p>
+
+                <p>
+                  Melalui transformasi digital, dokumentasi karya, pemberdayaan
+                  komunitas, serta pelestarian nilai-nilai tradisi, kita ingin
+                  memastikan bahwa kebudayaan Tasikmalaya tidak hanya lestari,
+                  tetapi juga mampu menjadi inspirasi di tingkat nasional maupun
+                  internasional.
+                </p>
+
+                <p>
+                  Mari jadikan DKKT sebagai rumah bersama. Tempat setiap gagasan
+                  dihargai, setiap karya diapresiasi, dan setiap insan budaya
+                  memiliki ruang untuk tumbuh demi Tasikmalaya yang lebih
+                  bermartabat.
+                </p>
+              </div>
+            )}
+
+            {/* Read More */}
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="inline-flex items-center gap-2 font-semibold text-amber-400 transition hover:text-amber-300"
+            >
+              {expanded ? "Lihat lebih sedikit" : "Selengkapnya"}
+              <span className={`transition ${expanded ? "rotate-180" : ""}`}>
+                ▼
+              </span>
+            </button>
           </div>
 
-          {/* IDENTITAS */}
+          {/* Identitas Ketua */}
           <div className="mt-12 border-l-4 border-amber-400 pl-5">
             <h3 className="text-3xl font-bold text-white">
               Tatang Suprihatna Sumpena, S.Sn.
@@ -76,31 +111,25 @@ export default function Chairman() {
               Ketua Dewan Kesenian dan Kebudayaan Kota Tasikmalaya
             </p>
 
-            {/* Upload nanti ke public/images/signature.png */}
-            <img
-              src="/images/signature.png"
-              alt="Tanda Tangan Ketua"
-              className="mt-5 h-16 object-contain"
-            />
+            <div className="mt-5 h-px w-48 bg-gradient-to-r from-amber-400 to-transparent" />
           </div>
 
-          {/* BUTTON */}
-          <div className="mt-10 flex gap-4">
+          {/* Button */}
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="/profil"
-              className="rounded-xl bg-amber-500 px-7 py-4 font-semibold text-black transition hover:scale-105 hover:bg-amber-400"
+              className="rounded-xl bg-amber-500 px-7 py-3 font-semibold text-black transition hover:scale-105 hover:bg-amber-400"
             >
               Profil DKKT
             </a>
 
             <a
               href="/berita"
-              className="rounded-xl border border-amber-400 px-7 py-4 font-semibold text-amber-300 transition hover:bg-amber-400 hover:text-black"
+              className="rounded-xl border border-amber-400 px-7 py-3 font-semibold text-amber-300 transition hover:bg-amber-400 hover:text-black"
             >
               Lihat Kegiatan
             </a>
           </div>
-
         </div>
       </div>
     </section>
