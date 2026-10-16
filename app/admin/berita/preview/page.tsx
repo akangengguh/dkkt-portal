@@ -1,0 +1,344 @@
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { requireAdmin } from "@/lib/admin";
+import { db } from "@/lib/db";
+import { canAccessNews, hasPermission } from "@/lib/permissions";
+
+export const dynamic = "force-dynamic";
+
+type PreviewPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+function formatDate(value: unknown) {
+  if (!value) return "-";
+
+  try {
+    return new Date(String(value)).toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "-";
+  }
+}
+
+function getStatus(
+  isPublished: boolean,
+  status: string
+) {
+  if (isPublished || status === "PUBLISHED") {
+    return {
+      label: "PUBLISHED",
+      className:
+        "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
+    };
+  }
+
+  if (status === "REJECTED") {
+    return {
+      label: "REJECTED",
+      className:
+        "border-red-500/30 bg-red-500/10 text-red-300",
+    };
+  }
+
+  return {
+    label: status || "DRAFT",
+    className:
+      "border-amber-500/30 bg-amber-500/10 text-amber-300",
+  };
+}
+
+export default async function AdminNewsPreviewPage({
+  params,
+}: PreviewPageProps) {
+  const session = await requireAdmin();
+
+  const canView = await hasPermission({
+    userId: session.userId,
+    permission: "news.view",
+  });
+
+  if (!canView) {
+    return (
+      <section className="mx-auto max-w-4xl">
+        <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
+            Akses Ditolak
+          </p>
+
+          <h1 className="mt-3 text-2xl font-black text-white">
+            Anda tidak mempunyai akses untuk melihat berita.
+          </h1>
+
+          <p className="mt-3 text-sm leading-7 text-gray-400">
+            Hubungi administrator sistem untuk memperoleh
+            permission yang diperlukan.
+          </p>
+
+          <Link
+            href="/admin/berita"
+            className="mt-6 inline-flex rounded-xl bg-amber-500 px-5 py-3 text-sm font-bold text-black transition hover:bg-amber-400"
+          >
+            Kembali ke Berita
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
+  const { id } = await params;
+
+  if (!id) {
+    notFound();
+  }
+
+  /*
+   * PENTING:
+   * Preview internal mengambil berita langsung berdasarkan ID.
+   *
+   * TIDAK ADA FILTER:
+   * - isPublished
+   * - status === PUBLISHED
+   *
+   * Karena Kurator harus bisa membaca DRAFT
+   * sebelum memutuskan Publish atau Tolak.
+   */
+  const news = await db.orm.public.News.first({
+    id,
+  });
+
+  if (!news) {
+    notFound();
+  }
+
+  if (!(await canAccessNews(session.userId, news, "view"))) {
+    notFound();
+  }
+
+  const isPublished =
+    news.isPublished === true ||
+    news.status === "PUBLISHED";
+
+  const status = getStatus(
+    isPublished,
+    news.status ?? "DRAFT"
+  );
+
+  return (
+    <div className="mx-auto max-w-5xl pb-20">
+      {/* =====================================================
+          INTERNAL PREVIEW BAR
+      ===================================================== */}
+      <div className="mb-6 rounded-2xl border border-amber-500/20 bg-amber-500/5 px-5 py-4">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-400">
+              CMS DKKT
+            </p>
+
+            <h1 className="mt-1 text-xl font-black text-white">
+              Preview Internal Kurator
+            </h1>
+
+            <p className="mt-1 text-sm text-gray-400">
+              Halaman ini hanya dapat diakses dari area CMS.
+              Berita DRAFT tetap dapat dibaca untuk proses
+              pemeriksaan sebelum dipublikasikan.
+            </p>
+          </div>
+
+          <span
+            className={`inline-flex w-fit rounded-full border px-4 py-2 text-xs font-bold ${status.className}`}
+          >
+            {status.label}
+          </span>
+        </div>
+      </div>
+
+      {/* =====================================================
+          ACTION BAR
+      ===================================================== */}
+      <div className="mb-8 flex flex-wrap items-center gap-3">
+        <Link
+          href="/admin/berita"
+          className="rounded-xl border border-white/10 bg-white/3 px-4 py-2.5 text-sm font-semibold text-gray-300 transition hover:border-amber-400/30 hover:text-amber-300"
+        >
+          ← Kembali
+        </Link>
+
+        <Link
+          href={`/admin/berita/${news.id}/edit`}
+          className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm font-semibold text-amber-300 transition hover:bg-amber-500/15"
+        >
+          Edit Berita
+        </Link>
+
+        {isPublished && news.slug && (
+          <Link
+            href={`/berita/${news.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-bold text-black transition hover:bg-amber-400"
+          >
+            Buka Publik ↗
+          </Link>
+        )}
+      </div>
+
+      {/* =====================================================
+          ARTICLE
+      ===================================================== */}
+      <article className="overflow-hidden rounded-3xl border border-white/10 bg-[#0b0b0b]">
+        {/* FEATURED IMAGE */}
+        {news.featuredImage ? (
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
+            <Image
+              src={news.featuredImage}
+              alt={news.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              priority
+            />
+          </div>
+        ) : (
+          <div className="flex aspect-[16/9] items-center justify-center bg-gradient-to-br from-[#161616] to-[#090909]">
+            <div className="text-center">
+              <div className="text-5xl">📰</div>
+
+              <p className="mt-3 text-sm font-semibold text-gray-500">
+                Belum ada featured image
+              </p>
+            </div>
+          </div>
+        )}
+
+        <div className="p-6 md:p-10 lg:p-12">
+          {/* STATUS + FEATURED */}
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold ${status.className}`}
+            >
+              {status.label}
+            </span>
+
+            {news.isFeatured && (
+              <span className="rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-xs font-bold text-purple-300">
+                ★ BERITA UNGGULAN
+              </span>
+            )}
+
+            {!isPublished && (
+              <span className="rounded-full border border-red-500/20 bg-red-500/5 px-3 py-1.5 text-xs font-semibold text-red-300">
+                Belum tampil di portal publik
+              </span>
+            )}
+          </div>
+
+          {/* TITLE */}
+          <h2 className="mt-6 text-3xl font-black leading-tight text-white md:text-5xl">
+            {news.title}
+          </h2>
+
+          {/* SUBTITLE */}
+          {news.subtitle && (
+            <p className="mt-4 text-lg leading-8 text-gray-400 md:text-xl">
+              {news.subtitle}
+            </p>
+          )}
+
+          {/* META */}
+          <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 border-y border-white/10 py-5 text-sm text-gray-500">
+            <span>
+              Dibuat:{" "}
+              <strong className="font-semibold text-gray-300">
+                {formatDate(news.createdAt)}
+              </strong>
+            </span>
+
+            {news.publishedAt && (
+              <span>
+                Dipublikasikan:{" "}
+                <strong className="font-semibold text-gray-300">
+                  {formatDate(news.publishedAt)}
+                </strong>
+              </span>
+            )}
+
+            {news.categoryId && (
+              <span>
+                Category ID:{" "}
+                <strong className="font-semibold text-gray-300">
+                  {news.categoryId}
+                </strong>
+              </span>
+            )}
+
+            {news.committeeId && (
+              <span>
+                Committee ID:{" "}
+                <strong className="font-semibold text-gray-300">
+                  {news.committeeId}
+                </strong>
+              </span>
+            )}
+          </div>
+
+          {/* EXCERPT */}
+          {news.excerpt && (
+            <div className="mt-8 rounded-2xl border border-amber-500/10 bg-amber-500/5 p-5">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-amber-400">
+                Ringkasan
+              </p>
+
+              <p className="mt-3 text-base leading-8 text-gray-300">
+                {news.excerpt}
+              </p>
+            </div>
+          )}
+
+          {/* CONTENT */}
+          <div className="mt-10">
+            <div className="mb-5 flex items-center gap-3">
+              <div className="h-px flex-1 bg-white/10" />
+
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-gray-600">
+                Isi Berita
+              </span>
+
+              <div className="h-px flex-1 bg-white/10" />
+            </div>
+
+            <div className="whitespace-pre-wrap text-base leading-8 text-gray-300 md:text-lg md:leading-9">
+              {news.content}
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* =====================================================
+          KURATOR NOTICE
+      ===================================================== */}
+      <div className="mt-8 rounded-2xl border border-white/10 bg-white/2 p-5">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-gray-500">
+          Catatan Kurator
+        </p>
+
+        <p className="mt-2 text-sm leading-7 text-gray-400">
+          Berita ini sedang dilihat pada mode preview internal.
+          Status DRAFT tidak menyebabkan halaman ini 404.
+          Kurator dapat melakukan pemeriksaan isi sebelum
+          menentukan apakah berita akan diterbitkan, tetap
+          diperbaiki, atau dikembalikan kepada editor.
+        </p>
+      </div>
+    </div>
+  );
+}

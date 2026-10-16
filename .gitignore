@@ -33,6 +33,14 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local request captures and uploaded user files
+/cookies.txt
+/admin.body
+/admin.headers
+/login.body
+/login.headers
+/public/uploads/
+
 # vercel
 .vercel
 

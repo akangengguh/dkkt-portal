@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,20 +17,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-   title: "DKKT Kota Tasikmalaya",
-  description: "Portal Resmi Dewan Kesenian dan Kebudayaan Kota Tasikmalaya",
+  title: {
+    default: "DKKT Kota Tasikmalaya",
+    template: "%s | DKKT Kota Tasikmalaya",
+  },
+
+  description:
+    "Portal Resmi Dewan Kesenian dan Kebudayaan Kota Tasikmalaya.",
+
   icons: {
     icon: "/logo/logo-dkkt.png",
-     },
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="id"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-screen bg-black text-white">
+        <Navbar />
+
+        <main className="min-h-screen">
+          {children}
+        </main>
+
+        <Footer />
+      </body>
     </html>
   );
 }

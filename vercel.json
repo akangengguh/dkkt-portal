@@ -1,0 +1,8 @@
+{
+  "framework": "nextjs",
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://dkkt.or.id"
+  }
+}

@@ -1,0 +1,332 @@
+[
+  {
+    "id": "column.public.committee.chairmanArtistId",
+    "label": "Add column \"chairmanArtistId\" to \"committee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "chairmanArtistId",
+        "table": "committee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"chairmanArtistId\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "committee",
+          "chairmanArtistId"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"chairmanArtistId\"",
+        "sql": "ALTER TABLE \"public\".\"committee\" ADD COLUMN \"chairmanArtistId\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"chairmanArtistId\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "committee",
+          "chairmanArtistId"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.organizationMember.artistId",
+    "label": "Add column \"artistId\" to \"organizationMember\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "artistId",
+        "table": "organizationMember"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"artistId\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "organizationMember",
+          "artistId"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"artistId\"",
+        "sql": "ALTER TABLE \"public\".\"organizationMember\" ADD COLUMN \"artistId\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"artistId\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "organizationMember",
+          "artistId"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.username",
+    "label": "Add column \"username\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "username",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"username\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "username"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"username\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"username\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"username\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "username"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user.user_username_key",
+    "label": "Add unique constraint on \"user\" (username)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_username_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_username_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_username_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_username_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD CONSTRAINT \"user_username_key\" UNIQUE (\"username\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_username_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_username_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.committee.committee_chairmanArtistId_idx_999240aa",
+    "label": "Create index \"committee_chairmanArtistId_idx_999240aa\" on \"committee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "committee_chairmanArtistId_idx_999240aa",
+        "table": "committee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"committee_chairmanArtistId_idx_999240aa\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"committee_chairmanArtistId_idx_999240aa\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"committee_chairmanArtistId_idx_999240aa\"",
+        "sql": "CREATE INDEX \"committee_chairmanArtistId_idx_999240aa\" ON \"public\".\"committee\" (\"chairmanArtistId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"committee_chairmanArtistId_idx_999240aa\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"committee_chairmanArtistId_idx_999240aa\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.organizationMember.organizationMember_artistId_idx_5a004db6",
+    "label": "Create index \"organizationMember_artistId_idx_5a004db6\" on \"organizationMember\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "organizationMember_artistId_idx_5a004db6",
+        "table": "organizationMember"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"organizationMember_artistId_idx_5a004db6\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"organizationMember_artistId_idx_5a004db6\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"organizationMember_artistId_idx_5a004db6\"",
+        "sql": "CREATE INDEX \"organizationMember_artistId_idx_5a004db6\" ON \"public\".\"organizationMember\" (\"artistId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"organizationMember_artistId_idx_5a004db6\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"organizationMember_artistId_idx_5a004db6\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.committee.committee_chairmanArtistId_fkey",
+    "label": "Add foreign key \"committee_chairmanArtistId_fkey\" on \"committee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "committee_chairmanArtistId_fkey",
+        "table": "committee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"committee_chairmanArtistId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "committee_chairmanArtistId_fkey",
+          "public",
+          "\"public\".\"committee\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"committee_chairmanArtistId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"committee\"\nADD CONSTRAINT \"committee_chairmanArtistId_fkey\"\nFOREIGN KEY (\"chairmanArtistId\")\nREFERENCES \"public\".\"artist\" (\"id\")\nON DELETE SET NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"committee_chairmanArtistId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "committee_chairmanArtistId_fkey",
+          "public",
+          "\"public\".\"committee\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.organizationMember.organizationMember_artistId_fkey",
+    "label": "Add foreign key \"organizationMember_artistId_fkey\" on \"organizationMember\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "organizationMember_artistId_fkey",
+        "table": "organizationMember"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"organizationMember_artistId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "organizationMember_artistId_fkey",
+          "public",
+          "\"public\".\"organizationMember\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"organizationMember_artistId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"organizationMember\"\nADD CONSTRAINT \"organizationMember_artistId_fkey\"\nFOREIGN KEY (\"artistId\")\nREFERENCES \"public\".\"artist\" (\"id\")\nON DELETE SET NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"organizationMember_artistId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "organizationMember_artistId_fkey",
+          "public",
+          "\"public\".\"organizationMember\""
+        ]
+      }
+    ]
+  }
+]

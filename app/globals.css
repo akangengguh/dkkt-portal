@@ -24,3 +24,530 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.report-print {
+  display: none;
+}
+
+.registration-card-print {
+  min-height: 100vh;
+  padding: 32px 20px;
+  background: #e9e4d8;
+  color: #171717;
+}
+
+.registration-card-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+}
+
+.registration-card-preview {
+  width: 85.6mm;
+  max-width: calc(100vw - 40px);
+}
+
+.registration-card-side-label {
+  margin: 0 0 8px;
+  color: #5f5749;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.registration-card-face {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 85.6 / 53.98;
+  overflow: hidden;
+  border: 1px solid #c79a3b;
+  border-radius: 3mm;
+  box-shadow: 0 12px 30px rgb(23 23 23 / 16%);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.registration-card-front {
+  background: #fff;
+}
+
+.registration-card-front-header {
+  display: flex;
+  height: 25%;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4%;
+  background: #171717;
+  color: white;
+}
+
+.registration-card-front-header img {
+  width: 11%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.registration-card-front-header p,
+.registration-card-back-header p {
+  margin: 0;
+  color: #e2b858;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.registration-card-front-header h1,
+.registration-card-back-header h2 {
+  margin: 3px 0 0;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.registration-card-front-body {
+  display: flex;
+  height: 75%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4%;
+}
+
+.registration-card-profile {
+  display: flex;
+  min-height: 0;
+  align-items: center;
+  gap: 4%;
+}
+
+.registration-card-photo {
+  display: grid;
+  width: 18%;
+  aspect-ratio: 0.8;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #d8c394;
+  border-radius: 2mm;
+  background: #f5f0e5;
+  color: #80621f;
+  font-size: 24px;
+}
+
+.registration-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.registration-card-identity {
+  min-width: 0;
+}
+
+.registration-card-category {
+  margin: 0 0 4px;
+  color: #9b7627;
+  font-size: 6px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.registration-card-identity h2 {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.registration-card-identity > p:not(.registration-card-category),
+.registration-card-identity > span {
+  display: block;
+  overflow: hidden;
+  margin: 3px 0 0;
+  color: #665a45;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.registration-card-number {
+  display: flex;
+  min-height: 23%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  border-radius: 2mm;
+  padding: 5px 8px;
+  background: #f5f0e5;
+}
+
+.registration-card-number div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.registration-card-number div span {
+  color: #665a45;
+  font-size: 6px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.registration-card-number strong {
+  overflow: hidden;
+  color: #6f5318;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  text-overflow: ellipsis;
+}
+
+.registration-card-status {
+  flex: 0 0 auto;
+  border-radius: 99px;
+  padding: 4px 6px;
+  background: #dff3e8;
+  color: #17643d;
+  font-size: 6px;
+  font-weight: 900;
+}
+
+.registration-card-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4%;
+  background: #fff;
+}
+
+.registration-card-back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d8c394;
+  padding-bottom: 5px;
+}
+
+.registration-card-back-header img {
+  width: 10%;
+  height: 28px;
+  object-fit: contain;
+}
+
+.registration-card-back-header h2 {
+  color: #171717;
+  font-size: 10px;
+}
+
+.registration-card-details {
+  display: grid;
+  gap: 4px;
+  margin: 5px 0;
+}
+
+.registration-card-details div {
+  display: flex;
+  min-width: 0;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid #eee9df;
+  padding-bottom: 3px;
+  font-size: 8px;
+}
+
+.registration-card-details dt {
+  flex: 0 0 auto;
+  color: #716a5e;
+}
+
+.registration-card-details dd {
+  overflow: hidden;
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.registration-card-legal {
+  margin: 0;
+  color: #716a5e;
+  font-size: 7px;
+  line-height: 1.35;
+}
+
+.registration-card-back-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid #c79a3b;
+  padding-top: 4px;
+  color: #6f5318;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.registration-card-back-footer strong {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+}
+
+.registration-card-error {
+  max-width: 85.6mm;
+  margin: 18px auto 0;
+  color: #991b1b;
+  font-size: 14px;
+}
+
+.registration-card-action {
+  display: block;
+  width: min(100%, 85.6mm);
+  margin: 20px auto 0;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: #171717;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.registration-card-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@page report-center {
+  size: A4 landscape;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  html:has(.registration-card-print),
+  body:has(.registration-card-print) {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .registration-card-print,
+  .registration-card-print * {
+    visibility: visible !important;
+  }
+
+  .registration-card-print {
+    position: fixed !important;
+    inset: 0 !important;
+    display: grid !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 0 !important;
+    place-items: center !important;
+    margin: 0 !important;
+    padding: 12mm !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .registration-card-sheet {
+    width: 125mm !important;
+    max-width: 125mm !important;
+    max-height: 273mm !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .registration-card-print {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .registration-card-gallery {
+    display: grid !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    grid-template-columns: repeat(2, 85.6mm) !important;
+    align-content: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8mm !important;
+    margin: 0 !important;
+  }
+
+  .registration-card-preview {
+    display: block !important;
+    width: 85.6mm !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 !important;
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  .registration-card-side-label {
+    display: none !important;
+  }
+
+  .registration-card-face {
+    width: 85.6mm !important;
+    height: 53.98mm !important;
+    max-width: none !important;
+    border-radius: 3mm !important;
+    box-shadow: none !important;
+  }
+
+  .registration-card-action,
+  .registration-card-error {
+    display: none !important;
+  }
+
+  a[href]:after {
+    content: none !important;
+  }
+
+  html:has(body.report-print-mode) {
+    width: auto !important;
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+  }
+
+  body.report-print-mode {
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  body.report-print-mode :has(.report-print) > :not(.report-print):not(:has(.report-print)) {
+    display: none !important;
+  }
+
+  body.report-print-mode .report-print,
+  body.report-print-mode .report-print * {
+    visibility: visible !important;
+  }
+
+  body.report-print-mode .report-print {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12mm !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #111 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10pt;
+  }
+
+  body.report-print-mode .report-center-print {
+    page: report-center;
+  }
+
+  body.report-print-mode .report-center-print .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  body.report-print-mode .report-center-print table {
+    table-layout: fixed;
+    font-size: 8pt;
+  }
+
+  body.report-print-mode .report-center-print th,
+  body.report-print-mode .report-center-print td {
+    overflow-wrap: anywhere;
+    padding: 1.5mm;
+  }
+
+  body.report-print-mode .report-print header {
+    margin-bottom: 7mm;
+    border-bottom: 1px solid #999;
+    padding-bottom: 4mm;
+  }
+
+  body.report-print-mode .report-print h1 {
+    margin: 3mm 0;
+    font-size: 18pt;
+    font-weight: 700;
+  }
+
+  body.report-print-mode .report-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3mm;
+    margin: 5mm 0;
+  }
+
+  body.report-print-mode .report-summary p {
+    margin: 0;
+    border: 1px solid #bbb;
+    padding: 2mm;
+  }
+
+  body.report-print-mode .report-print table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+  }
+
+  body.report-print-mode .report-print th,
+  body.report-print-mode .report-print td {
+    border: 1px solid #999;
+    padding: 2mm;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  body.report-print-mode .report-print thead {
+    display: table-header-group;
+  }
+
+  body.report-print-mode .report-print tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
